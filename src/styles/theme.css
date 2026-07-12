@@ -1,0 +1,262 @@
+@import "tailwindcss";
+@import "@astrojs/starlight-tailwind";
+
+/* ===== 主題色:lime(萊姆綠) ===== */
+:root {
+  --sl-color-accent-low: #042f2e;
+  --sl-color-accent: #14b8a6;
+  --sl-color-accent-high: #99f6e4;
+  --gst-accent: #14b8a6;
+  --gst-accent-soft: #14b8a633;
+}
+:root[data-theme="light"] {
+  --sl-color-accent-low: #ccfbf1;
+  --sl-color-accent: #0f766e;
+  --sl-color-accent-high: #134e4a;
+  --gst-accent: #0f766e;
+  --gst-accent-soft: #0f766e26;
+}
+
+/* ===== 內文排版:章節格線 ===== */
+/* H1 標題下的漸層條 */
+.sl-markdown-content h1::after,
+.content-panel h1::after {
+  content: "";
+  display: block;
+  width: 9rem;
+  height: 6px;
+  margin-top: 0.9rem;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--gst-accent), var(--gst-accent-soft), transparent);
+}
+
+/* H2 下的淡分隔線 */
+.sl-markdown-content h2 {
+  padding-bottom: 0.35em;
+  border-bottom: 1px solid var(--gst-accent-soft);
+}
+
+/* H3 左側色條 */
+.sl-markdown-content h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+.sl-markdown-content h3::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 1em;
+  border-radius: 2px;
+  background: var(--gst-accent);
+}
+
+/* 「進階」callout 改用綠色(其他 tip 維持 Starlight 預設紫色) */
+.starlight-aside--tip[aria-label="進階"] {
+  --sl-color-asides-text-accent: var(--sl-color-green-high);
+  --sl-color-asides-border: var(--sl-color-green);
+  background-color: var(--sl-color-green-low);
+}
+
+/* 「警告」callout 改用紅色 */
+.starlight-aside[aria-label="警告"] {
+  --sl-color-asides-text-accent: var(--sl-color-red-high);
+  --sl-color-asides-border: var(--sl-color-red);
+  background-color: var(--sl-color-red-low);
+}
+
+/* 「注意」callout 改用黃色(深淺色各自定義,Starlight 無內建黃) */
+.starlight-aside[aria-label="注意"] {
+  --sl-color-asides-text-accent: #fde047;
+  --sl-color-asides-border: #eab308;
+  background-color: #3a3110;
+}
+:root[data-theme="light"] .starlight-aside[aria-label="注意"] {
+  --sl-color-asides-text-accent: #854d0e;
+  --sl-color-asides-border: #ca8a04;
+  background-color: #fef9c3;
+}
+
+/* 金句 blockquote */
+.sl-markdown-content blockquote {
+  border-inline-start-color: var(--gst-accent);
+  background: var(--gst-accent-soft);
+  border-radius: 0 0.6rem 0.6rem 0;
+  padding: 0.6rem 1rem;
+}
+
+/* 內文行距與寬度微調 */
+.sl-markdown-content {
+  line-height: 1.9;
+}
+
+/* ===== 首頁「學習路徑」卡片區 ===== */
+.path-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.1rem;
+  align-items: stretch;
+}
+@media (min-width: 720px) {
+  .path-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.path-grid > .path-card { margin-top: 0 !important; }
+.path-card {
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 1rem;
+  padding: 1.4rem 1.5rem;
+  background: var(--sl-color-bg-nav);
+}
+.path-card > * { margin-top: 0 !important; }
+.path-num {
+  color: var(--gst-accent);
+  font-weight: 800;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+}
+.path-title {
+  font-weight: 700;
+  font-size: 1.15rem;
+  line-height: 1.5;
+  color: var(--sl-color-white);
+  margin: 0.25rem 0 0.75rem !important;
+}
+/* 圖示彩色圓角方框:移植 Starlight Card 元件的原生樣式(含 nth-child 輪替色) */
+.path-card {
+  --path-icon-border: var(--sl-color-purple);
+  --path-icon-bg: var(--sl-color-purple-low);
+}
+.path-card:nth-child(4n + 1) {
+  --path-icon-border: var(--sl-color-orange);
+  --path-icon-bg: var(--sl-color-orange-low);
+}
+.path-card:nth-child(4n + 3) {
+  --path-icon-border: var(--sl-color-green);
+  --path-icon-bg: var(--sl-color-green-low);
+}
+.path-card:nth-child(4n + 4) {
+  --path-icon-border: var(--sl-color-red);
+  --path-icon-bg: var(--sl-color-red-low);
+}
+.path-card:nth-child(4n + 5) {
+  --path-icon-border: var(--sl-color-blue);
+  --path-icon-bg: var(--sl-color-blue-low);
+}
+.path-title .path-icon {
+  display: inline-block;
+  vertical-align: -0.35em;
+  margin-inline-end: 0.55em;
+  padding: 0.2em;
+  border: 1px solid var(--path-icon-border);
+  background-color: var(--path-icon-bg);
+  border-radius: 0.25rem;
+  color: var(--sl-color-white);
+}
+.path-links {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.path-links li {
+  margin: 0.3rem 0 !important;
+  padding: 0;
+}
+.path-links a {
+  font-size: 0.95rem;
+  color: var(--sl-color-gray-2);
+  text-decoration: none;
+}
+.path-links a:hover {
+  color: var(--gst-accent);
+  text-decoration: underline;
+}
+
+/* ===== 側欄編號(小號阿拉伯數字,內容由 sidebar-num.css 逐站生成)===== */
+#starlight__sidebar a[href]::before {
+  font-size: 0.7em;
+  font-weight: 700;
+  color: var(--sl-color-gray-3);
+  margin-inline-end: 0.35em;
+  font-variant-numeric: tabular-nums;
+}
+#starlight__sidebar summary .group-label span::before {
+  font-size: 0.72em;
+  font-weight: 700;
+  color: var(--gst-accent);
+  margin-inline-end: 0.35em;
+}
+
+/* ===== 首頁「你會學到什麼」卡片區 ===== */
+.learn-title {
+  text-align: center;
+  font-size: 1.9rem;
+  font-weight: 800;
+  margin-top: 3rem;
+}
+.learn-sub {
+  text-align: center;
+  color: #a1a1aa;
+  letter-spacing: 0.04em;
+  line-height: 1.8;
+  margin: 0.6rem auto 2rem;
+  max-width: 38em;
+}
+.learn-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.1rem;
+  align-items: stretch;
+}
+/* Starlight 會給非首子元素加 margin-top,會讓卡片高度不齊,這裡歸零 */
+.learn-grid > .learn-card {
+  margin-top: 0 !important;
+}
+@media (min-width: 640px) {
+  .learn-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1024px) {
+  .learn-grid { grid-template-columns: repeat(4, 1fr); }
+}
+.learn-card {
+  background: #18181b;
+  border: 1px solid #27272a;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  transition: border-color 0.2s, background 0.2s;
+}
+.learn-card:hover {
+  border-color: var(--gst-accent);
+  background: #1c1c20;
+}
+.learn-icon {
+  font-size: 1.7rem;
+  line-height: 1;
+  margin-bottom: 0.9rem;
+}
+.learn-card-title {
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+.learn-desc {
+  font-size: 0.875rem;
+  color: #a1a1aa;
+  line-height: 1.75;
+  margin: 0;
+}
+
+/* Tailwind preflight 會清掉列點,這裡補回 */
+.sl-markdown-content ul {
+  list-style: disc;
+  padding-inline-start: 1.4em;
+}
+.sl-markdown-content ol {
+  list-style: decimal;
+  padding-inline-start: 1.4em;
+}
+.sl-markdown-content li {
+  margin-block: 0.35em;
+}
+.sl-markdown-content li::marker {
+  color: var(--gst-accent);
+}
